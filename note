@@ -1,0 +1,208 @@
+// <!DOCTYPE html>
+// <html>
+// <head>
+//     <title>GovProject Contract</title>
+//     <style>
+//         body {
+//             font-family: Arial, sans-serif;
+//             background-color: #F2F6FC;
+//             margin: 0;
+//             padding: 20px;
+//         }
+
+//         h1 {
+//             color: #1474F3;
+//         }
+
+//         .container {
+//             background-color: #FFFFFF;
+//             border-radius: 10px;
+//             padding: 20px;
+//             box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+//         }
+
+//         .form-group {
+//             margin-bottom: 15px;
+//         }
+
+//         .form-group label {
+//             display: block;
+//             font-weight: bold;
+//             margin-bottom: 5px;
+//             color: #1474F3;
+//         }
+
+//         .form-group input {
+//             width: 100%;
+//             padding: 10px;
+//             border: 1px solid #C4C4C4;
+//             border-radius: 5px;
+//         }
+
+//         .form-group button {
+//             background-color: #1474F3;
+//             color: #FFFFFF;
+//             border: none;
+//             padding: 10px 20px;
+//             border-radius: 5px;
+//             cursor: pointer;
+//         }
+
+//         .form-group button:hover {
+//             background-color: #0F63D0;
+//         }
+
+//         .result {
+//             margin-top: 20px;
+//             padding: 10px;
+//             border: 1px solid #C4C4C4;
+//             border-radius: 5px;
+//             background-color: #F2F6FC;
+//         }
+
+//         .result label {
+//             font-weight: bold;
+//             color: #1474F3;
+//         }
+//     </style>
+// </head>
+// <body>
+//     <div class="container">
+//         <h1>GovProject Contract</h1>
+//         <div class="form-group">
+//             <label for="nama">Nama:</label>
+//             <input type="text" id="nama" placeholder="Enter Nama">
+//         </div>
+//         <div class="form-group">
+//             <label for="namaProject">Nama Project:</label>
+//             <input type="text" id="namaProject" placeholder="Enter Nama Project">
+//         </div>
+//         <div class="form-group">
+//             <label for="biayaProject">Biaya Project:</label>
+//             <input type="number" id="biayaProject" placeholder="Enter Biaya Project">
+//         </div>
+//         <div class="form-group">
+//             <label for="date">Date:</label>
+//             <input type="date" id="date" placeholder="Enter Date">
+//         </div>
+//         <div class="form-group">
+//             <button onclick="addProject()">Add Project</button>
+//         </div>
+//         <div class="form-group">
+//             <label for="projectId">Project ID:</label>
+//             <input type="number" id="projectId" placeholder="Enter Project ID">
+//         </div>
+//         <div class="form-group">
+//             <button onclick="getProjectDetails()">Get Project Details</button>
+//         </div>
+//         <div id="result" class="result"></div>
+//     </div>
+
+//     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+//     <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+//     <script>
+//         const contractAddress = '0x09943Fa8DD32C76f7b880627a0F6af73e8f5A595';
+//         const abi = [
+//             {
+//                 "constant": true,
+//                 "inputs": [
+//                     {
+//                         "name": "_projectId",
+//                         "type": "uint256"
+//                     },
+//                     {
+//                         "name": "_address",
+//                         "type": "address"
+//                     }
+//                 ],
+//                 "name": "getProjectDetails",
+//                 "outputs": [
+//                     {
+//                         "name": "",
+//                         "type": "string"
+//                     },
+//                     {
+//                         "name": "",
+//                         "type": "string"
+//                     },
+//                     {
+//                         "name": "",
+//                         "type": "uint256"
+//                     },
+//                     {
+//                         "name": "",
+//                         "type": "string"
+//                     }
+//                 ],
+//                 "payable": false,
+//                 "stateMutability": "view",
+//                 "type": "function"
+//             },
+//             {
+//                 "constant": false,
+//                 "inputs": [
+//                     {
+//                         "name": "_nama",
+//                         "type": "string"
+//                     },
+//                     {
+//                         "name": "_namaProject",
+//                         "type": "string"
+//                     },
+//                     {
+//                         "name": "_biayaProject",
+//                         "type": "uint256"
+//                     },
+//                     {
+//                         "name": "_date",
+//                         "type": "string"
+//                     }
+//                 ],
+//                 "name": "addProject",
+//                 "outputs": [],
+//                 "payable": false,
+//                 "stateMutability": "nonpayable",
+//                 "type": "function"
+//             }
+//         ];
+//         const provider = new ethers.providers.Web3Provider(window.ethereum);
+//         const contract = new ethers.Contract(contractAddress, abi, provider.getSigner());
+
+//         function addProject() {
+//             const nama = $('#nama').val();
+//             const namaProject = $('#namaProject').val();
+//             const biayaProject = parseInt($('#biayaProject').val());
+//             const date = $('#date').val();
+
+//              contract.addProject(nama, namaProject, biayaProject, date)
+//                 .then(() => {
+//                     $('#result').text('Project added successfully.');
+//                 })
+//                 .catch((error) => {
+//                     console.error(error);
+//                     $('#result').text('Error occurred while adding project.');
+//                 });
+//         }
+
+//         function getProjectDetails() {
+//             const projectId = parseInt($('#projectId').val());
+
+//             contract.getProjectDetails(projectId)
+//                 .then((result) => {
+//                     const [nama, namaProject, biayaProject, date] = result;
+//                     $('#result').html(`
+//                         <label>Project Details</label>
+//                         <p><strong>Nama:</strong> ${nama}</p>
+//                         <p><strong>Nama Project:</strong> ${namaProject}</p>
+//                         <p><strong>Biaya Project:</strong> ${biayaProject}</p>
+//                         <p><strong>Date:</strong> ${date}</p>
+//                     `);
+//                 })
+//                 .catch((error) => {
+//                     console.error(error);
+//                     $('#result').text('Error occurred while fetching project details.');
+//                 });
+//         }
+//     </script>
+// </body>
+// </html>
