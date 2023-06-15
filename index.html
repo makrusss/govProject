@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GovProject Contract</title>
+    <title>GovProject Registration</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -33,7 +33,7 @@
         }
 
         .form-group input {
-            width: 100%;
+            width: 95%;
             padding: 10px;
             border: 1px solid #C4C4C4;
             border-radius: 5px;
@@ -68,9 +68,9 @@
 </head>
 <body>
     <div class="container">
-        <h1>GovProject Contract</h1>
+        <h1>GovProject Registration Contract</h1>
         <div class="form-group">
-            <label for="nama">Nama:</label>
+            <label for="nama">Nama Penanggung Jawab:</label>
             <input type="text" id="nama" placeholder="Enter Nama">
         </div>
         <div class="form-group">
@@ -79,10 +79,10 @@
         </div>
         <div class="form-group">
             <label for="biayaProject">Biaya Project:</label>
-            <input type="number" id="biayaProject" placeholder="Enter Biaya Project">
+            <input type="number" id="biayaProject" placeholder="Enter Biaya Project (Rupiah)">
         </div>
         <div class="form-group">
-            <label for="date">Date:</label>
+            <label for="date">Submitted Date:</label>
             <input type="date" id="date" placeholder="Enter Date">
         </div>
         <div class="form-group">
@@ -101,70 +101,118 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
     <script>
-        const contractAddress = '0xb7bb1792BBfabbA361c46DC5860940e0E1bFb4b9';
+        const contractAddress = '0x328Ff44C75Caffb8fdF268AeAaBc3D65bC418492';
         const abi = [
-            {
-                "constant": true,
-                "inputs": [
-                    {
-                        "name": "_projectId",
-                        "type": "uint256"
-                    },
-                    {
-                        "name": "_address",
-                        "type": "address"
-                    }
-                ],
-                "name": "getProjectDetails",
-                "outputs": [
-                    {
-                        "name": "",
-                        "type": "string"
-                    },
-                    {
-                        "name": "",
-                        "type": "string"
-                    },
-                    {
-                        "name": "",
-                        "type": "uint256"
-                    },
-                    {
-                        "name": "",
-                        "type": "string"
-                    }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "constant": false,
-                "inputs": [
-                    {
-                        "name": "_nama",
-                        "type": "string"
-                    },
-                    {
-                        "name": "_namaProject",
-                        "type": "string"
-                    },
-                    {
-                        "name": "_biayaProject",
-                        "type": "uint256"
-                    },
-                    {
-                        "name": "_date",
-                        "type": "string"
-                    }
-                ],
-                "name": "addProject",
-                "outputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
-            }
-        ];
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_nama",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_namaProject",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_biayaProject",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_date",
+				"type": "string"
+			}
+		],
+		"name": "addProject",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_projectId",
+				"type": "uint256"
+			}
+		],
+		"name": "getProjectDetails",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "govProjects",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "nama",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "namaProject",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "biayaProject",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "date",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "projectId",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const contract = new ethers.Contract(contractAddress, abi, provider.getSigner());
 
@@ -176,7 +224,11 @@
 
              contract.addProject(nama, namaProject, biayaProject, date)
                 .then(() => {
-                    $('#result').text('Project added successfully.');
+                    $('#nama').val('');
+                    $('#namaProject').val('');
+                    $('#biayaProject').val('');
+                    $('#date').val('');
+                    $('#result').text(`Project : ${namaProject} added successfully! Penanggung jawab : ${nama}`);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -185,8 +237,7 @@
         }
 
         function getProjectDetails() {
-            const projectId = parseInt($('#projectId').val());
-
+            const projectId = $('#projectId').val();
             contract.getProjectDetails(projectId)
                 .then((result) => {
                     const [nama, namaProject, biayaProject, date] = result;
