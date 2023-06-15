@@ -4,7 +4,7 @@
 
 GovProject is a registration program in the government sector aimed at preventing corruption. It allows users to input project details such as the Project Name, Responsible Person's Name, Project Cost, and the Date of Submission. The data is stored on the blockchain and is visible to all. This program ensures that project details can be tracked and verified through the blockchain.
 
-Short Bahasa Indonesia : - Pencegahan Korupsi dengan sistem Blockchain - Tercatat dan tidak bisa di edit (update / delete) - Update akan masuk ke dalam Block selanjutnya - Akan mudah untuk melakukan Tracking terhadap Setiap Project Pemerintah yang dibuat
+Short Bahasa Indonesia : - Pencegahan Korupsi dengan sistem Blockchain - Tercatat dan tidak bisa di edit (update / delete) - Update akan masuk ke dalam Block selanjutnya - Akan mudah untuk melakukan Tracking terhadap Setiap Project Pemerintah yang dibuat. Hard note : Blockchain is an IT System, not Cryptocurrency or NFT.
 
 ## Usage
 
